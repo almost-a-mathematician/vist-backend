@@ -16,14 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from main_app.router import router
+from . import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('vist/', include('main_app.urls')),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     path("api/", include(router.urls)), 
-]
+    path('auth/', include('main_app.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

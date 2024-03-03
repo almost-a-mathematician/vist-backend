@@ -1,0 +1,57 @@
+# PATCH http://localhost:8000/api/wishlists/4/
+# Content-Type: application/json
+# My-User-Id: 3
+
+# {
+#   "name": "lalala",
+#   "archived_at": null
+# }
+
+
+# PUT http://localhost:8000/api/wishlists/1/users/
+# Content-Type: application/json
+# My-User-Id: 1
+
+# [1, 2]
+
+
+# POST  http://localhost:8000/api/wishlists/
+# Content-Type: application/json
+# My-User-Id: 2
+
+# {
+#     "name": "novi",
+#     "archived_at": null
+
+# }
+
+
+# POST  http://localhost:8000/api/gifts/2/booked_by/
+# Content-Type: application/json
+# My-User-Id: 2
+
+
+# POST  http://localhost:8000/api/gifts/
+# Content-Type: application/json
+# My-User-Id: 1
+
+# {
+#     "name": "podarok2",
+#     "wishlist": 1
+# }
+
+# DELETE http://localhost:8000/api/gifts/8/
+# Content-Type: application/json
+# My-User-Id: 1
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2MjgxMjM5LCJpYXQiOjE3MDYyODExNzksImp0aSI6IjRlMmNlZGFmZDQ3ZDRiMTU4N2Y3YTM4ZTBmNjczMjY3IiwidXNlcl9pZCI6MX0.JF5ZNnCo-m66NeCveyfovrs-4IpfcKNp0wacpKjptEw
+
+GET http://127.0.0.1:8000/api/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2Mjg1MDE0LCJpYXQiOjE3MDYyODE0MTQsImp0aSI6ImE1ODY3MjM1YjMxYTQ3ZTA4ZmI0MjM1NjRjYmE1YTQ0IiwidXNlcl9pZCI6MX0._dELAbNIpgxDpxYZPU_CDHWaTlN-LuNKOCAzG4jeHNg
+
+# POST http://localhost:8000/auth/login/
+# Content-Type: application/json
+
+# {
+#     "password": "admin",
+#     "username": "vikusha_admin"
+# }
