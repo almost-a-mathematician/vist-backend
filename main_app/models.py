@@ -49,7 +49,7 @@ class UserFriend(models.Model):
 
 class Wishlist(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlists') 
-    name = models.CharField(max_length=20, blank=False)
+    name = models.CharField(max_length=50, blank=False)
     users = models.ManyToManyField(User)
     archived_at = models.DateTimeField(null=True, blank=True)
 
@@ -60,7 +60,7 @@ class Wishlist(models.Model):
 
 class Gift(models.Model):
     wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE, related_name='gifts')
-    name = models.CharField(max_length=30, blank=False)
+    name = models.CharField(max_length=50, blank=False)
     img = models.ImageField(upload_to='images', blank=False)
     price = models.DecimalField(max_digits=5, decimal_places=2, blank=False)
     link_url = models.URLField(max_length=200, blank=False)

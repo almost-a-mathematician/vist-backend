@@ -43,7 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
         return data
 class GiftSerializer(serializers.ModelSerializer):
     booked_by = UserSerializer(required=False)
-    owner = serializers.    SerializerMethodField() 
+    owner = serializers.SerializerMethodField() 
     class Meta:
         model = Gift
         fields = ('id', 'name', 'wishlist', 'img', 'price', 'link_url', 'description', 'booked_by', 'owner')
@@ -82,7 +82,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
     
 class LoginSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=68, min_length=4,write_only=True)
+    password = serializers.CharField(max_length=150, min_length=4,write_only=True)
     username = serializers.CharField(max_length=255, min_length=3)
     tokens = serializers.SerializerMethodField()
     def get_tokens(self, obj):
