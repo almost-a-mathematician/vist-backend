@@ -1,0 +1,7 @@
+#header, .module caption, div.breadcrumbs{
+    background-color: #f7b7c9;
+}
+
+#site-name a:visited{
+    color: white;
+}

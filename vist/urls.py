@@ -28,5 +28,7 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-
+# admin.site.site_header = "Vist"
+# admin.site.site_title = "Vekushka"
+# admin.site.index_title = "Vist Admin Pannel"
     

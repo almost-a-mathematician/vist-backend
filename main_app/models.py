@@ -2,6 +2,7 @@ from django.db import models
 from . managers import WishlistManager
 from django.contrib.auth.models import AbstractUser
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
     profile_pic = models.ImageField(upload_to='images', blank=True, null=True)
@@ -9,6 +10,18 @@ class User(AbstractUser):
     birth_date = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_hidden_bd = models.BooleanField(default=False)
+    username = models.CharField(
+        _("username"),
+        max_length=150,
+        unique=True,
+        help_text=_(
+            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+        ),
+        error_messages={
+            "unique": _("A user with that username already exists."),
+        },
+        blank=False
+    )
     # username = models.CharField(max_length=20, blank=False)
     friends = models.ManyToManyField('User', through="UserFriend")
 

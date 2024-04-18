@@ -45,8 +45,8 @@
 # My-User-Id: 1
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2MjgxMjM5LCJpYXQiOjE3MDYyODExNzksImp0aSI6IjRlMmNlZGFmZDQ3ZDRiMTU4N2Y3YTM4ZTBmNjczMjY3IiwidXNlcl9pZCI6MX0.JF5ZNnCo-m66NeCveyfovrs-4IpfcKNp0wacpKjptEw
 
-GET http://127.0.0.1:8000/api/users/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2Mjg1MDE0LCJpYXQiOjE3MDYyODE0MTQsImp0aSI6ImE1ODY3MjM1YjMxYTQ3ZTA4ZmI0MjM1NjRjYmE1YTQ0IiwidXNlcl9pZCI6MX0._dELAbNIpgxDpxYZPU_CDHWaTlN-LuNKOCAzG4jeHNg
+# GET http://127.0.0.1:8000/api/users/1
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2Mjg1MDE0LCJpYXQiOjE3MDYyODE0MTQsImp0aSI6ImE1ODY3MjM1YjMxYTQ3ZTA4ZmI0MjM1NjRjYmE1YTQ0IiwidXNlcl9pZCI6MX0._dELAbNIpgxDpxYZPU_CDHWaTlN-LuNKOCAzG4jeHNg
 
 # POST http://localhost:8000/auth/login/
 # Content-Type: application/json
@@ -55,3 +55,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 #     "password": "admin",
 #     "username": "vikusha_admin"
 # }
+
+
+# DELETE http://localhost:8000/api/users/2/
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyNzU3NjM1LCJpYXQiOjE3MTI3NTQwMzUsImp0aSI6IjE2ZDAwZmFmYjdjNjQzNTlhNDg1NzBjYzFjYWFlNjU5IiwidXNlcl9pZCI6Mn0.mcs24W93PzVIVWPqgJruNh5YiAIpeMD-SwJjf8jDw9c
+
+# GET http://127.0.0.1:8000/api/search?search=по
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQzNTg2LCJpYXQiOjE3MTI4Mzk5ODYsImp0aSI6IjhmMTVkZDhjMzE2NzQyMTc5NjRiZWFjMWViZmQ0ZjhjIiwidXNlcl9pZCI6M30.9nNI2CXVbO_5jZiJvUIdscoZ577WoBWUO68noII0AN4
+
+
+GET   http://localhost:8000/api/wishlists/friends/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzMTg3MDc5LCJpYXQiOjE3MTMxNzk3MzgsImp0aSI6ImFhOGY0NmEwYWFjZTRmMjg5YTM1YmU2M2UzMmI3MDcyIiwidXNlcl9pZCI6M30.3pYQEnF8bPgXXc-wdZ3_eJrdZx_-Oo5xI9cBtCfUWZY

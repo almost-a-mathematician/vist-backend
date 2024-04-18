@@ -64,7 +64,18 @@ class UserViewSet(viewsets.ViewSet):
         serializer.save()
         
         return Response(serializer.data)
-    
+
+    def delete(self, request, pk):
+        viewer_id = request.user.id
+        user = get_object_or_404(self.queryset, pk=pk)
+
+        if viewer_id == int(pk):
+            user.delete()
+        else:
+            raise PermissionDenied()
+        
+        return Response()
+
 class WishlistViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Wishlist.objects.all()
@@ -175,6 +186,18 @@ class WishlistViewSet(viewsets.ViewSet):
         serializer.save()
 
         return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'], url_path='friends')
+
+    def friends(self, request):
+        viewer_id = request.user.id
+
+        filtered_queryset = Wishlist.objects.get_visible_for(viewer_id).filter(owner__friends__id=viewer_id)
+
+        serializer = WishlistSerializer(filtered_queryset, many=True, context={'request': request})
+    
+        return Response(serializer.data)
+
 
 class GiftViewSet(viewsets.ViewSet):
     queryset = Gift.objects.all()
@@ -277,6 +300,21 @@ class GiftViewSet(viewsets.ViewSet):
             raise PermissionDenied
         
         return Response()
+    
+class UserAndWishlistSearchViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    
+    def list(self, request):
+        viewer_id = request.user.id
+        query_param = request.GET.get('search', '')
+
+        user = User.objects.filter(username__icontains=query_param)
+        wishlist = Wishlist.objects.get_visible_for(viewer_id).filter(name__icontains=query_param)
+
+        user_serializer = UserSerializer(user, many=True, context={'request': request})
+        wishlist_serializer = WishlistSerializer(wishlist, many=True, context={'request': request})
+
+        return Response({'users' : user_serializer.data, 'wishlists' : wishlist_serializer.data})
     
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer

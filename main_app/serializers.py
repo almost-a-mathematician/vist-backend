@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
        
         data = super().to_representation(instance)
         
-        request = self.context['request']
+        request = self.context['request'] # способ передачи данных в сериализатор
         viewer_id = request.user.id
 
         if viewer_id != instance.id and instance.is_hidden_bd==True:
@@ -41,6 +41,8 @@ class UserSerializer(serializers.ModelSerializer):
         # пользователя (instance) отключено отображение даты рождения
 
         return data
+    
+# from django.utils.safestring import mark_safe
 class GiftSerializer(serializers.ModelSerializer):
     booked_by = UserSerializer(required=False)
     owner = serializers.SerializerMethodField() 
@@ -52,6 +54,10 @@ class GiftSerializer(serializers.ModelSerializer):
         owner = obj.wishlist.owner
         serializer = UserSerializer(owner, context=self.context)
         return serializer.data
+    
+    # def get_gift_img(self, object):
+    #     if object.img:
+    #         return mark_safe(f"<img src='{object.img.uri}' width=50>")
 
 class WishlistSerializer(serializers.ModelSerializer):
     owner = UserSerializer()
