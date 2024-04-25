@@ -2,10 +2,10 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from . serializers import UserSerializer, WishlistSerializer, GiftSerializer, UserWithWishlistsSerializer, WishlistWithUsersSerializer, RegisterSerializer,LoginSerializer,LogoutSerializer
+from . serializers import UserSerializer, WishlistSerializer, GiftSerializer, UserWithWishlistsSerializer, WishlistWithUsersSerializer, UserFriendRequestSerializer, RegisterSerializer,LoginSerializer,LogoutSerializer
 from rest_framework import viewsets, generics, status, views, permissions
 from rest_framework.response import Response
-from . models import User, Wishlist, Gift
+from . models import User, Wishlist, Gift, UserFriendRequest, UserFriend
 from rest_framework.decorators import action, api_view, parser_classes
 from django.db.models import Q
 from django.db.models import prefetch_related_objects
@@ -316,6 +316,82 @@ class UserAndWishlistSearchViewSet(viewsets.ViewSet):
 
         return Response({'users' : user_serializer.data, 'wishlists' : wishlist_serializer.data})
     
+
+class FriendRequestViewSet(viewsets.ViewSet):
+    queryset = UserFriendRequest.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        viewer = request.user
+
+        user_request = UserFriendRequest.objects.filter(Q(sender=viewer) | Q(receiver=viewer))
+
+        serializer = UserFriendRequestSerializer(
+            user_request, 
+            many=True,
+            context={'request': request}
+        )
+
+        return Response(serializer.data)
+
+    def create(self, request):
+        sender = request.user
+        receiver = get_object_or_404(User.objects.all(), id=request.data['receiver_id'])
+
+        if sender == receiver:
+            raise PermissionDenied
+
+        if UserFriendRequest.objects.filter(sender=sender, receiver=receiver).exists():
+             raise PermissionDenied
+        
+        if UserFriendRequest.objects.filter(receiver=sender, sender=receiver).exists():
+             raise PermissionDenied
+        
+        friend_request = UserFriendRequest.objects.create(sender=sender, receiver=receiver, status='sent')
+        
+        
+        serializer = UserFriendRequestSerializer(
+            friend_request,
+            context={'request': request}
+        )
+
+        return Response(serializer.data)
+    
+    def partial_update(self, request, pk):
+        viewer_id = request.user.id
+        request_status = request.data['status']
+
+        friend_request = get_object_or_404(self.queryset, pk=pk)
+        receiver_id = friend_request.receiver.id
+        sender_id = friend_request.sender.id
+
+        if viewer_id != receiver_id: 
+             raise PermissionDenied
+        
+        if request_status == 'accepted':
+            if friend_request.status == 'sent' or friend_request.status == 'rejected':
+                UserFriend.objects.create(user_id=receiver_id, friend_id=sender_id)
+                UserFriend.objects.create(user_id=sender_id, friend_id=receiver_id)
+                friend_request.status='accepted'
+                friend_request.save()
+            else:
+                raise PermissionDenied
+        elif request_status == 'rejected':
+            UserFriend.objects.filter(user_id=receiver_id, friend_id=sender_id).delete()
+            UserFriend.objects.filter(user_id=sender_id, friend_id=receiver_id).delete()
+            friend_request.status='rejected'
+            friend_request.save()
+        else:
+            raise PermissionDenied
+        
+        serializer = UserFriendRequestSerializer(
+            friend_request,
+            context={'request': request}
+        )
+
+        return Response(serializer.data)
+        
+
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     

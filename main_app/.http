@@ -66,6 +66,23 @@
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEyODQzNTg2LCJpYXQiOjE3MTI4Mzk5ODYsImp0aSI6IjhmMTVkZDhjMzE2NzQyMTc5NjRiZWFjMWViZmQ0ZjhjIiwidXNlcl9pZCI6M30.9nNI2CXVbO_5jZiJvUIdscoZ577WoBWUO68noII0AN4
 
 
-GET   http://localhost:8000/api/wishlists/friends/
+# GET   http://localhost:8000/api/wishlists/friends/
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNDQyMjAxLCJpYXQiOjE3MTMxODM0NzksImp0aSI6ImQ4ZWNkY2Q3MzIyMDRkY2VhZTA5ZWIyOWI0N2YxMWFjIiwidXNlcl9pZCI6M30.jH6rpfZyEG9cdn4j_0fslhjD3BecdGJdWlvtMvcJxp4
+
+# POST http://localhost:8000/api/friend_requests/
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzOTY2MDE3LCJpYXQiOjE3MTM0Mzg2MDEsImp0aSI6ImRkZDBhODllOWQ4NzQ0ZTc4NDIwNDljMTMxZTQyZTBkIiwidXNlcl9pZCI6M30.vI9xsr0Yd5efgIcLpxoX7tQHo6LQahGlxcRqjJ48fpA
+
+# {
+#     "receiver_id": 4
+# }
+
+
+PATCH http://localhost:8000/api/friend_requests/3/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzMTg3MDc5LCJpYXQiOjE3MTMxNzk3MzgsImp0aSI6ImFhOGY0NmEwYWFjZTRmMjg5YTM1YmU2M2UzMmI3MDcyIiwidXNlcl9pZCI6M30.3pYQEnF8bPgXXc-wdZ3_eJrdZx_-Oo5xI9cBtCfUWZY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzOTY4MDkwLCJpYXQiOjE3MTM5NjQ0OTAsImp0aSI6ImM1NmM5OGRjNmZkOTQ1Mzg4YzY4ZTUwOWIwMWM3ZTI0IiwidXNlcl9pZCI6NH0.KLQ_txebDQoZeLlB6L7D1czvk6eZsKFP9AT-cGvALKA
+
+{
+    "status": "accepted"
+}

@@ -8,6 +8,7 @@ admin.site.register(User)
 admin.site.register(UserFriend)
 admin.site.register(Wishlist)
 admin.site.register(Gift)
+admin.site.register(UserFriendRequest)
 
 
 class CustomAdminSite(AdminSite):

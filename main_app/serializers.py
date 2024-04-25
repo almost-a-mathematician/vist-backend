@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import User, Wishlist, Gift
+from . models import User, Wishlist, Gift, UserFriendRequest
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -77,6 +77,15 @@ class WishlistWithUsersSerializer(WishlistSerializer):
 
     class Meta(WishlistSerializer.Meta):
         fields = WishlistSerializer.Meta.fields + ('users', )
+
+
+class UserFriendRequestSerializer(serializers.ModelSerializer):
+    sender = UserSerializer()
+    receiver = UserSerializer()
+
+    class Meta:
+        model = UserFriendRequest
+        fields = ('id', 'sender', 'receiver', 'status')
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=4, write_only=True)

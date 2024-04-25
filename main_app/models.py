@@ -43,27 +43,16 @@ class User(AbstractUser):
         }
  
 class UserFriend(models.Model):
-    STATUS_CHOICES = (
-        ('sent', 'Sent'),
-        ('accepted', 'Accepted'),
-        ('rejected', 'Rejected'),
-    )
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     friend = models.ForeignKey(User,related_name='friend', on_delete=models.CASCADE)
-    status = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES,
-        default='sent'
-    )
 
     def __str__(self):
-        return self.status
+        return f'{self.user.username} & {self.friend.username}'
 
 class Wishlist(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlists') 
     name = models.CharField(max_length=50, blank=False)
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, blank=True)
     archived_at = models.DateTimeField(null=True, blank=True)
 
     objects = WishlistManager()
@@ -83,3 +72,20 @@ class Gift(models.Model):
     def __str__(self):
         return self.name
     
+class UserFriendRequest(models.Model):
+    STATUS_CHOICES = (
+        ('sent', 'Sent'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    )
+
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User,related_name='friend_request', on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='sent'
+    )
+
+    def __str__(self):
+        return self.status
