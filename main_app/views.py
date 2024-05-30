@@ -365,11 +365,12 @@ class FriendRequestViewSet(viewsets.ViewSet):
         receiver_id = friend_request.receiver.id
         sender_id = friend_request.sender.id
 
-        if viewer_id != receiver_id: 
+        if viewer_id != receiver_id and viewer_id != sender_id: 
              raise PermissionDenied
         
         if request_status == 'accepted':
-            if friend_request.status == 'sent' or friend_request.status == 'rejected':
+            if ((friend_request.status == 'sent' and viewer_id == receiver_id) or 
+                (friend_request.status == 'rejected' and viewer_id == friend_request.rejected_by_id)):
                 UserFriend.objects.create(user_id=receiver_id, friend_id=sender_id)
                 UserFriend.objects.create(user_id=sender_id, friend_id=receiver_id)
                 friend_request.status='accepted'
@@ -377,20 +378,33 @@ class FriendRequestViewSet(viewsets.ViewSet):
             else:
                 raise PermissionDenied
         elif request_status == 'rejected':
-            UserFriend.objects.filter(user_id=receiver_id, friend_id=sender_id).delete()
-            UserFriend.objects.filter(user_id=sender_id, friend_id=receiver_id).delete()
-            friend_request.status='rejected'
-            friend_request.save()
+            if friend_request.status == 'accepted' or (friend_request.status == 'sent' and viewer_id == receiver_id):
+                UserFriend.objects.filter(user_id=receiver_id, friend_id=sender_id).delete()
+                UserFriend.objects.filter(user_id=sender_id, friend_id=receiver_id).delete()
+                friend_request.status='rejected'
+                friend_request.rejected_by_id=viewer_id
+                friend_request.save()
+            else:
+                raise PermissionDenied
         else:
             raise PermissionDenied
-        
+
         serializer = UserFriendRequestSerializer(
             friend_request,
             context={'request': request}
         )
 
         return Response(serializer.data)
-        
+    
+    def delete(self, request, pk):
+        viewer_id = request.user.id
+
+        friend_request = get_object_or_404(self.queryset, pk=pk)
+        sender_id = friend_request.sender.id
+
+        if viewer_id == sender_id and friend_request.status == 'sent':
+            friend_request.delete()
+    
 
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer

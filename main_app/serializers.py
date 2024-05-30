@@ -48,7 +48,7 @@ class GiftSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField() 
     class Meta:
         model = Gift
-        fields = ('id', 'name', 'wishlist', 'img', 'price', 'link_url', 'description', 'booked_by', 'owner')
+        fields = ('id', 'name', 'wishlist', 'img', 'price', 'link_url', 'description', 'booked_by', 'owner', 'is_priority')
 
     def get_owner(self, obj):
         owner = obj.wishlist.owner

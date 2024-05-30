@@ -28,8 +28,7 @@ class User(AbstractUser):
     def are_friends_with(self, find_friend_id):
         return UserFriend.objects.filter(
             models.Q(user__id=self.id, friend__id=find_friend_id)
-            | models.Q(friend__id=self.id, user__id=find_friend_id),
-            status='accepted'
+            | models.Q(friend__id=self.id, user__id=find_friend_id)
         ).exists()
     
     def __str__(self):
@@ -68,9 +67,14 @@ class Gift(models.Model):
     link_url = models.URLField(max_length=200, blank=False)
     description = models.CharField(max_length=150, blank=True)
     booked_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    is_priority = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Подарок'
+        verbose_name_plural = 'Подарки'
     
 class UserFriendRequest(models.Model):
     STATUS_CHOICES = (
@@ -86,6 +90,7 @@ class UserFriendRequest(models.Model):
         choices=STATUS_CHOICES,
         default='sent'
     )
+    rejected_by = models.ForeignKey(User, related_name='rejected_by', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.status
