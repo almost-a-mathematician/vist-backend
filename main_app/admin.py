@@ -14,7 +14,7 @@ admin.site.register(UserFriendRequest)
 class CustomAdminSite(AdminSite):
     admin.site.site_title = 'Vekushka'
     admin.site.site_header = 'Vist'
-    admin.site.index_title = 'Vist Admin Pannel'
+    admin.site.index_title = 'Панель администрирования Vist'
 
 
   

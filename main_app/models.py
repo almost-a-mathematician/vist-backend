@@ -47,6 +47,10 @@ class UserFriend(models.Model):
 
     def __str__(self):
         return f'{self.user.username} & {self.friend.username}'
+    
+    class Meta:
+        verbose_name = 'Друзья'
+        verbose_name_plural = 'Друг'
 
 class Wishlist(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlists') 
@@ -58,6 +62,10 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Вишлист'
+        verbose_name_plural = 'Вишлисты'
 
 class Gift(models.Model):
     wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE, related_name='gifts')
@@ -94,3 +102,7 @@ class UserFriendRequest(models.Model):
 
     def __str__(self):
         return self.status
+    
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'
