@@ -230,7 +230,7 @@ class GiftViewSet(viewsets.ViewSet):
         )
 
         if not serializer.is_valid():
-            raise ValidationError(serializer.error)
+            raise ValidationError(serializer.errors)
         
         serializer.save()
 
