@@ -49,8 +49,8 @@ class UserFriend(models.Model):
         return f'{self.user.username} & {self.friend.username}'
     
     class Meta:
-        verbose_name = 'Друзья'
-        verbose_name_plural = 'Друг'
+        verbose_name = 'Друг'
+        verbose_name_plural = 'Друзья'
 
 class Wishlist(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlists') 
