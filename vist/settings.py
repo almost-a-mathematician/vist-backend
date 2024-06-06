@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from os import getenv
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*wvy1k%8ov&pu!j%-ni^pb74mp#3c3*e#t)xzj222rs*hv9_c+'
+SECRET_KEY = getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+	'django_rest_passwordreset'
 ]
 
 REST_FRAMEWORK = {
@@ -113,12 +118,12 @@ WSGI_APPLICATION = 'vist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vist2',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'pgdb',
-        'PORT': '5432', 
+        'ENGINE': getenv('DB_ENGINE'),
+        'NAME': getenv('DB_NAME'),
+        'USER': getenv('DB_USER'),
+        'PASSWORD': getenv('DB_PASSWORD'),
+        'HOST': getenv('DB_HOST'),
+        'PORT': getenv('DB_PORT'), 
     }
 }
 
@@ -178,3 +183,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+EMAIL_BACKEND=getenv('EMAIL_BACKEND')
+EMAIL_HOST=getenv('EMAIL_HOST')
+EMAIL_PORT=getenv('EMAIL_PORT')
+EMAIL_USE_TLS=getenv('EMAIL_USE_TLS')
+EMAIL_HOST_USER=getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=getenv('EMAIL_HOST_PASSWORD')
+
+print(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+
+DJANGO_REST_PASSWORDRESET_NO_INFORMATION_LEAKAGE = True
